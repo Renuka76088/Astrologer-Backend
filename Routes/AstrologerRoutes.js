@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../Uploads/upload.js";
+import upload from "../midleware/upload.js";
 
 import {
   registerAstrologer,
