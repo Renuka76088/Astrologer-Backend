@@ -12,6 +12,8 @@ import { dirname, join } from "path";
 
 // ================== ROUTES ==================
 import AstroRoutes from "./Routes/AstrologerRoutes.js";
+import JobsRoutes from "./Routes/jobRoutes.js";
+import jobDetailsRoutes from "./Routes/jobDetailsRoutes.js";
 
 
 
@@ -51,6 +53,8 @@ app.use("/certs", express.static(join(__dirname, "public/certs")));
 
 // ================== ROUTES ==================
 app.use("/api/astrologer", AstroRoutes);
+app.use("/api/jobs", JobsRoutes);
+app.use("/api/job-details", jobDetailsRoutes);
 
 
 
