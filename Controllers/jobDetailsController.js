@@ -3,17 +3,34 @@ import JobDetails from "../Models/JobDetails.js";
 
 // CREATE JOB DETAILS
 export const createJobDetails = async (req, res) => {
-
   try {
 
-    const jobDetails = new JobDetails(req.body);
+    const {
+      jobId,
+      description,
+      responsibilities,
+      requirements,
+      applicants,
+      posted
+    } = req.body;
 
-    const savedDetails = await jobDetails.save();
+    const jobDetails = await JobDetails.create({
+      jobId,
+      description,
+      responsibilities,
+      requirements,
+      applicants,
+      posted
+    });
+
+    // 👇 populate job data
+    const populatedJob = await JobDetails.findById(jobDetails._id)
+      .populate("jobId");
 
     res.status(201).json({
       success: true,
       message: "Job details created successfully",
-      data: savedDetails
+      data: populatedJob
     });
 
   } catch (error) {
@@ -24,9 +41,7 @@ export const createJobDetails = async (req, res) => {
     });
 
   }
-
 };
-
 
 
 // GET JOB DETAILS BY JOB ID
@@ -36,7 +51,8 @@ export const getJobDetails = async (req, res) => {
 
     const { jobId } = req.params;
 
-    const jobDetails = await JobDetails.findOne({ jobId });
+    const jobDetails = await JobDetails.findOne({ jobId })
+      .populate("jobId");   // 👈 yeh line add karni hai
 
     if (!jobDetails) {
       return res.status(404).json({
